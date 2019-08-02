@@ -1,0 +1,12 @@
+[package]
+name = "rust-postgres-benchmark"
+version = "0.1.0"
+authors = ["Michael P. Jung <michael.jung@terreon.de>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dotenv = "0.14.1"
+postgres = { version = "0.16.0-rc.2", features = ["with-uuid-0_7"] }
+uuid = { version = "0.7", features = ["v4"] }
