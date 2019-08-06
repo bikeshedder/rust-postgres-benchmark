@@ -9,8 +9,8 @@ DIRS=(
     "tokio-postgres-0.4.0-rc.3"
 )
 
-echo "Compiling..."
 for DIR in ${DIRS[@]}; do
+    echo "Compiling $DIR..."
     (cd $DIR; cargo build --release)
 done
 
