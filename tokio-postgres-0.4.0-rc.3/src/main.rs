@@ -1,7 +1,7 @@
 use std::time::SystemTime;
 
 use dotenv::dotenv;
-use futures::{Future, Stream};
+use futures::{Future, Stream, future::loop_fn, future::Loop};
 use tokio;
 
 mod api;
@@ -40,12 +40,19 @@ fn main() {
             tokio::spawn(connection);
             client
         });
-    let mut client = sys.block_on(client_fut).expect("Connect failed");
+    let client = sys.block_on(client_fut).expect("Connect failed");
     let begin = SystemTime::now();
     println!("Running {} queries...", ITERATIONS);
-    for _ in 0..ITERATIONS {
-        client = sys.block_on(fetch_async(client)).expect("Fetch failed").0;
-    }
+    sys.block_on(loop_fn((client, 0u128), |(client, count)| {
+        fetch_async(client)
+            .and_then(move |(client, _)| {
+                if count < ITERATIONS {
+                    Ok(Loop::Continue((client, count+1)))
+                } else {
+                    Ok(Loop::Break((client, count+1)))
+                }
+            })
+    })).expect("Fetch failed");
     let elapsed = begin.elapsed().expect("elapsed() failed").as_millis();
     println!("Elapsed time: {} ms", elapsed);
     println!("Performance: {} req/s", ITERATIONS*1000/elapsed);

@@ -2,7 +2,7 @@ use std::env;
 use std::time::SystemTime;
 
 use dotenv::dotenv;
-use futures::{Future};
+use futures::{Future, future::loop_fn, future::Loop};
 use futures_state_stream::StateStream;
 use tokio_core::reactor::Core;
 mod api;
@@ -41,12 +41,19 @@ fn main() {
         &core.handle()
     );
 
-    let mut client = sys.block_on(client_fut).expect("Connect failed");
+    let client = sys.block_on(client_fut).expect("Connect failed");
     let begin = SystemTime::now();
     println!("Running {} queries...", ITERATIONS);
-    for _ in 0..ITERATIONS {
-        client = sys.block_on(fetch_async(client)).expect("Fetch failed").1;
-    }
+    sys.block_on(loop_fn((client, 0u128), |(client, count)| {
+        fetch_async(client)
+            .and_then(move |(_, client)| {
+                if count < ITERATIONS {
+                    Ok(Loop::Continue((client, count+1)))
+                } else {
+                    Ok(Loop::Break((client, count+1)))
+                }
+            })
+    })).expect("Fetch failed");
     let elapsed = begin.elapsed().expect("elapsed() failed").as_millis();
     println!("Elapsed time: {} ms", elapsed);
     println!("Performance: {} req/s", ITERATIONS*1000/elapsed);
