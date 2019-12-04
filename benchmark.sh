@@ -7,6 +7,8 @@ DIRS=(
     "postgres-0.16-rc.2"
     "tokio-postgres-0.3.0"
     "tokio-postgres-0.4.0-rc.3"
+    "tokio-postgres-0.5.0-alpha.2"
+    "tokio-postgres-0.5.0-09a63d6"
 )
 
 for DIR in ${DIRS[@]}; do
