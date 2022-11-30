@@ -24,12 +24,11 @@ fn main() {
     dotenv().ok();
     let pg_connection_string = env::var("PG_CONNECTION_STRING")
         .expect("PG_CONNECTION_STRING missing in environment");
-    println!("Connecting...");
     let mut client = postgres::Connection::connect(
         pg_connection_string.as_str(),
         postgres::TlsMode::None
     ).expect("PG connection failed");
-    println!("Running {} queries...", ITERATIONS);
+    //println!("Running {} queries...", ITERATIONS);
     let begin = SystemTime::now();
     for _ in 0..ITERATIONS {
         fetch_sync(&mut client);
@@ -38,6 +37,3 @@ fn main() {
     println!("Elapsed time: {} ms", elapsed);
     println!("Performance: {} req/s", ITERATIONS*1000/elapsed);
 }
-
-
-

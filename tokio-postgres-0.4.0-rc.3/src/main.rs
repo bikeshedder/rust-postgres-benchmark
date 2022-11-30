@@ -32,7 +32,6 @@ fn main() {
     dotenv().ok();
     let pg_config = pg_config_from_env().expect("Invalid PG config");
     let mut sys = actix_rt::System::new("actix_example");
-    println!("Connecting...");
     let connect = pg_config.connect(tokio_postgres::NoTls);
     let client_fut = connect
         .map(|(client, connection)| {
@@ -57,6 +56,3 @@ fn main() {
     println!("Elapsed time: {} ms", elapsed);
     println!("Performance: {} req/s", ITERATIONS*1000/elapsed);
 }
-
-
-

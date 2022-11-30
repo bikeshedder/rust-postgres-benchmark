@@ -1,11 +1,10 @@
+use std::env;
 use std::time::SystemTime;
 
 use dotenv::dotenv;
 
 mod api;
 use api::Event;
-mod db;
-use db::pg_config_from_env;
 
 const ITERATIONS: u128 = 1_000_000;
 
@@ -23,9 +22,12 @@ fn fetch_sync(client: &mut postgres::Client) -> Vec<Event> {
 
 fn main() {
     dotenv().ok();
-    let pg_config = pg_config_from_env().expect("Invalid PG config");
-    let config = postgres::config::Config::from(pg_config.clone());
-    let mut client = config.connect(postgres::NoTls).expect("PG connection failed");
+    let pg_connection_string = env::var("PG_CONNECTION_STRING")
+        .expect("PG_CONNECTION_STRING missing in environment");
+    let mut client = postgres::Client::connect(
+        pg_connection_string.as_str(),
+        postgres::NoTls
+    ).expect("PG connection failed");
     println!("Running {} queries...", ITERATIONS);
     let begin = SystemTime::now();
     for _ in 0..ITERATIONS {

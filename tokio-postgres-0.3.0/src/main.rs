@@ -34,7 +34,6 @@ fn main() {
     let pg_connection_string = env::var("PG_CONNECTION_STRING")
         .expect("PG_CONNECTION_STRING missing in environment");
     let mut sys = actix_rt::System::new("actix_example");
-    println!("Connecting...");
     let client_fut = tokio_postgres::Connection::connect(
         pg_connection_string,
         tokio_postgres::TlsMode::None,
@@ -58,6 +57,3 @@ fn main() {
     println!("Elapsed time: {} ms", elapsed);
     println!("Performance: {} req/s", ITERATIONS*1000/elapsed);
 }
-
-
-

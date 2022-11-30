@@ -1,7 +1,6 @@
 use std::time::SystemTime;
 
 use dotenv::dotenv;
-use tokio;
 
 mod api;
 use api::Event;

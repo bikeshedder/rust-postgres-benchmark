@@ -1,7 +1,6 @@
 use std::time::SystemTime;
 
 use dotenv::dotenv;
-use tokio;
 
 mod api;
 use api::Event;
@@ -21,11 +20,10 @@ async fn fetch(client: &tokio_postgres::Client) -> Result<Vec<Event>, tokio_post
     }).collect())
 }
 
-#[tokio::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() {
     dotenv().ok();
     let pg_config = pg_config_from_env().expect("Invalid PG config");
-    println!("Connecting...");
     let (client, connection) = pg_config.connect(tokio_postgres::NoTls).await.unwrap();
     tokio::spawn(connection);
     let begin = SystemTime::now();
@@ -37,6 +35,3 @@ async fn main() {
     println!("Elapsed time: {} ms", elapsed);
     println!("Performance: {} req/s", ITERATIONS*1000/elapsed);
 }
-
-
-

@@ -8,6 +8,5 @@ edition = "2018"
 
 [dependencies]
 dotenv = "0.14.1"
-tokio = { version = "0.2.2", features = ["macros"] }
-tokio-postgres = { git = "https://github.com/sfackler/rust-postgres", commit = "09a63d62553da1625c0f8385ab15e815b78d587d", features = ["with-uuid-0_7"] }
-uuid = { version = "0.7", features = ["v4"] }
+postgres = { version = "0.17.5", features = ["with-uuid-0_8"] }
+uuid = { version = "0.8", features = ["v4"] }

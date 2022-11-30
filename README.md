@@ -11,40 +11,53 @@ This repository contains benchmarks for `postgres` and `tokio-postgres`
 
 ## Results
 
-Running this benchmark on a DELL XPS 13 with i7-8550U CPU @ 1.80GHz, 16 GiB of RAM and a SSD using Fedora 29 with PostgreSQL 10.10 yields the following results:
-
-### postgres-0.15.2
-```
-Elapsed time: 65057 ms
-Performance: 15371 req/s
-```
+Running this benchmark on a i9-9900K CPU, 128 GiB of RAM and a SSD using Ubuntu 22.04 with PostgreSQL 15.1 yields the following results:
 
 ### postgres-0.16-rc.2
 ```
-Elapsed time: 134766 ms
-Performance: 7420 req/s
+Running 1000000 queries...
+Elapsed time: 97232 ms
+Performance: 10284 req/s
 ```
 
-### tokio-postgres-0.3.0
+### postgres-0.17.5
 ```
-Elapsed time: 141756 ms
-Performance: 7054 req/s
-```
-
-### tokio-postgres-0.4.0-rc.3
-```
-Elapsed time: 91957 ms
-Performance: 10874 req/s
+Running 1000000 queries...
+Elapsed time: 58377 ms
+Performance: 17130 req/s
 ```
 
-### tokio-postgres-0.5.0-alpha.2
+### postgres-0.19.4
 ```
-Elapsed time: 83041 ms
-Performance: 12042 req/s
+Running 1000000 queries...
+Elapsed time: 59870 ms
+Performance: 16702 req/s
 ```
 
-### tokio-postgres-0.5.0-09a63d6
+### tokio-postgres-0.5.0-alpha.2 (tokio 0.2)
 ```
-Elapsed time: 86778 ms
-Performance: 11523 req/s
+Running 1000000 queries...
+Elapsed time: 60448 ms
+Performance: 16543 req/s
+```
+
+### tokio-postgres-0.5.5 (tokio 0.2)
+```
+Running 1000000 queries...
+Elapsed time: 59747 ms
+Performance: 16737 req/s
+```
+
+### tokio-postgres-0.7.7
+```
+Running 1000000 queries...
+Elapsed time: 73286 ms
+Performance: 13645 req/s
+```
+
+### tokio-postgres-0.7.7\_current\_thread
+```
+Running 1000000 queries...
+Elapsed time: 59614 ms
+Performance: 16774 req/s
 ```

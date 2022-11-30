@@ -1,0 +1,13 @@
+[package]
+name = "rust-postgres-benchmark"
+version = "0.1.0"
+authors = ["Michael P. Jung <michael.jung@terreon.de>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dotenv = "0.15.0"
+tokio = { version = "1.22.0", features = ["macros", "rt-multi-thread"] }
+tokio-postgres = { version = "=0.7.7", features = ["with-uuid-1"] }
+uuid = { version = "1.2.2", features = ["v4"] }
